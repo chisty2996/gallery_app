@@ -4,15 +4,15 @@ import 'package:gallery_app/features/gallery/presentation/screens/album_screen.d
 import 'package:go_router/go_router.dart';
 
 class RouteGenerator{
-  
+ static final GoRouter router = GoRouter(
+    initialLocation: AppRoutes.albumScreen,
+    routes: [
+      ///Album Screen
+      GoRoute(
+          path: AppRoutes.albumScreen,
+          pageBuilder: (context, state) => const MaterialPage(child: AlbumScreen())
+      ),
+    ],
+  );
 }
-final GoRouter router = GoRouter(
-  initialLocation: AppRoutes.albumScreen,
-  routes: [
-    ///Album Screen
-    GoRoute(
-      path: AppRoutes.albumScreen,
-      pageBuilder: (context, state) => const MaterialPage(child: AlbumScreen())
-    ),
-  ],
-);
+

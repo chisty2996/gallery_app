@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gallery_app/core/routes/route_generator.dart';
+import 'package:gallery_app/core/theme/theme.dart';
+import 'package:gallery_app/dependency_injection.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -16,10 +20,7 @@ class MyApp extends StatelessWidget {
       routerConfig: RouteGenerator.router,
 
       title: 'Gallery',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        useMaterial3: true,
-      ),
+      theme: theme(),
       builder: (context, child){
         return Scaffold(body: child,);
       },
