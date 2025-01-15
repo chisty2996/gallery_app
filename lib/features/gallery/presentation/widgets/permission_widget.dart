@@ -1,10 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:gallery_app/features/gallery/presentation/bloc/gallery_bloc.dart';
-
-import '../../../../core/data_state.dart';
-import '../../data/datasources/gallery_data_sources.dart';
 import 'grant_access_button.dart';
 
 class PermissionWidget extends StatelessWidget {

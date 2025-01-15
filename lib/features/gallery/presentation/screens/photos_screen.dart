@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery_app/core/routes/app_routes.dart';
-import 'package:gallery_app/core/routes/route_generator.dart';
 import 'package:gallery_app/features/gallery/domain/entities/album.dart';
 import 'package:gallery_app/features/gallery/domain/entities/photo.dart';
 import 'package:gallery_app/features/gallery/presentation/bloc/gallery_bloc.dart';

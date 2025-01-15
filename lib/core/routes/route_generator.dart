@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gallery_app/core/routes/app_routes.dart';
-import 'package:gallery_app/features/gallery/domain/entities/album.dart';
 import 'package:gallery_app/features/gallery/domain/entities/photo.dart';
 import 'package:gallery_app/features/gallery/presentation/screens/album_screen.dart';
 import 'package:gallery_app/features/gallery/presentation/screens/photo_viewer_screen.dart';
