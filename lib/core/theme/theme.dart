@@ -7,7 +7,7 @@ ThemeData theme(){
     colorScheme: const ColorScheme.light(
       primary: Colors.white,
       primaryContainer: Colors.black,
-      secondary: CustomColors.paleWhite,
+      secondary: CustomColors.mintGreen,
     ),
     primaryTextTheme: const TextTheme(
       titleLarge: TextStyle(
