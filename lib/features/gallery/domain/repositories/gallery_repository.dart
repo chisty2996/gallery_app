@@ -12,4 +12,6 @@ abstract class GalleryRepository{
   Future<DataState<List<Album>>> getAlbums();
 
   Future<DataState<List<Photo>>> getPhotosByAlbum(String albumId);
+
+  Future<DataState<String>> getHighQualityIOSImagePath(String photoId);
 }

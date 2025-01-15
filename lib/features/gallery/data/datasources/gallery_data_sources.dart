@@ -9,7 +9,10 @@ import 'package:permission_handler/permission_handler.dart';
 import '../models/photo_model.dart';
 
 class GalleryDataSources {
-  static const platform = MethodChannel("photo_gallery_channel");
+  final MethodChannel platform;
+
+  GalleryDataSources({MethodChannel? channel})
+      : platform = channel ?? const MethodChannel("photo_gallery_channel");
 
   Future<DataState<bool>> checkPermission() async {
     try {
@@ -23,9 +26,9 @@ class GalleryDataSources {
       } else if (Platform.isIOS) {
         return await _checkPermission(Permission.photos);
       }
-    } catch (e, s) {
-      debugPrint('Error: $e');
-      debugPrint('Stack trace: $s');
+    } catch (e,s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
     }
     return const DataFailed(message: "Failed to check permission");
   }
@@ -221,7 +224,7 @@ class GalleryDataSources {
       photos = List<PhotoModel>.from(
         response
             .map((photo) => PhotoModel(
-          id: photo['path'],
+          id: photo['id'],
           imagePath: photo['path'],
           dateAdded: DateTime.now(),
         )),
@@ -233,10 +236,26 @@ class GalleryDataSources {
     return photos;
   }
 
+  Future<DataState<String>> getHighQualityIOSImagePath(String photoId)async{
+    try{
+      final Map<dynamic, dynamic> result = await platform.invokeMethod(
+        'getHighQualityImage',
+        photoId,
+      );
+      final path = (result)['path'] as String?;
+      if(path!=null){
+        return DataSuccess(path);
+      }
+    }
+    catch(e,s){
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+    }
+    return const DataFailed(message: "Fetching photo failed");
+  }
 
 
-  static Future<int?> getAndroidSdkVersion() async {
-    if (Platform.isAndroid) {
+  Future<int?> getAndroidSdkVersion() async {
       try {
         final int? sdkVersion =
             await platform.invokeMethod<int>('getSdkVersion');
@@ -245,7 +264,6 @@ class GalleryDataSources {
       } on PlatformException catch (e) {
         log("Failed to get SDK version: '${e.message}'.");
       }
-    }
     return null;
   }
 }

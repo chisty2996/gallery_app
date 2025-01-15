@@ -61,5 +61,26 @@ class GalleryRepositoryImpl implements GalleryRepository{
     return const DataFailed(message: "Album fetching failed");
   }
 
+  @override
+  Future<DataState<String>> getHighQualityIOSImagePath(String photoId) async{
+
+    try{
+      final response = await _galleryDataSources.getHighQualityIOSImagePath(photoId);
+
+      if(response is DataSuccess){
+        String? photoPath = response.data;
+        if(photoPath!=null){
+          return DataSuccess(photoPath);
+        }
+      }
+    }
+    catch(e,s){
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+    }
+
+    return const DataFailed(message: "Album fetching failed");
+  }
+
 
 }

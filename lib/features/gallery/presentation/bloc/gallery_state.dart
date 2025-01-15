@@ -81,3 +81,26 @@ final class PhotosFetchingFailed extends GalleryState{
   @override
   List<Object?> get props => [message];
 }
+
+final class HighQualityPhotoFetching extends GalleryState{
+  @override
+  List<Object?> get props => [];
+}
+
+final class HighQualityPhotoFetchSuccess extends GalleryState{
+  final String path;
+
+  const HighQualityPhotoFetchSuccess({required this.path});
+
+  @override
+  List<Object?> get props => [path];
+}
+
+final class HighQualityPhotoFetchFailed extends GalleryState{
+  final String? message;
+
+  const HighQualityPhotoFetchFailed({this.message});
+
+  @override
+  List<Object?> get props => [message];
+}

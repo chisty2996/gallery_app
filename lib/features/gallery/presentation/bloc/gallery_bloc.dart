@@ -16,6 +16,7 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
     on<RequestPermission>(onRequestPermission);
     on<GetAlbums>(onFetchingAlbums);
     on<GetPhotos>(onFetchingPhotos);
+    on<GetHighQualityImage>(onFetchHighQualityPhoto);
   }
 
   List<Album> storedAlbumList = [];
@@ -106,6 +107,26 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
     }
     else{
       emit(PhotosFetchingFailed(message: response.message));
+    }
+  }
+
+  void onFetchHighQualityPhoto(GetHighQualityImage event, Emitter<GalleryState> emit) async{
+    emit(HighQualityPhotoFetching());
+
+    final response = await galleryUseCases.getHighQualityPhotoPath(event.photoId);
+
+    if(response is DataSuccess){
+      String? photo = response.data;
+
+      if(photo!=null){
+        emit(HighQualityPhotoFetchSuccess(path: photo));
+      }
+      else{
+        emit(HighQualityPhotoFetchFailed(message: response.message));
+      }
+    }
+    else{
+      emit(HighQualityPhotoFetchFailed(message: response.message));
     }
   }
 

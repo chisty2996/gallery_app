@@ -24,4 +24,8 @@ class GalleryUseCases{
   Future<DataState<List<Photo>>> getPhotosByAlbum(String albumId) async{
     return await galleryRepository.getPhotosByAlbum(albumId);
   }
+
+  Future<DataState<String>> getHighQualityPhotoPath(String photoId) async{
+    return await galleryRepository.getHighQualityIOSImagePath(photoId);
+  }
 }

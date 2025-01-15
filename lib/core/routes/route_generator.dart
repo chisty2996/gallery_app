@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gallery_app/core/routes/app_routes.dart';
 import 'package:gallery_app/features/gallery/domain/entities/photo.dart';
 import 'package:gallery_app/features/gallery/presentation/screens/album_screen.dart';
+import 'package:gallery_app/features/gallery/presentation/screens/ios_photo_viewer_screen.dart';
 import 'package:gallery_app/features/gallery/presentation/screens/photo_viewer_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,7 +43,19 @@ class RouteGenerator {
             child: PhotoViewerScreen(photo: data)
           );
         },
-      )
+      ),
+
+      /// iOS Photo viewer screen
+      GoRoute(
+        path: AppRoutes.iOSPhotoViewerScreen,
+        pageBuilder: (context, state) {
+          final Map data = state.extra as Map;
+
+          return MaterialPage(
+            child: IosPhotoViewerScreen(photo: data['photo'], galleryBloc: data['bloc']),
+          );
+        },
+      ),
     ],
   );
 }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +60,15 @@ class _PhotosScreenState extends State<PhotosScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        context.push(AppRoutes.photoViewerScreen, extra: photos![index]);
+                        if(Platform.isAndroid){
+                          log("path: ${photos![index].imagePath}");
+                          context.push(AppRoutes.photoViewerScreen, extra: photos![index]);
+                        }
+                        else{
+                          log("path: ${photos![index].imagePath}");
+                          context.push(AppRoutes.iOSPhotoViewerScreen, extra: {"photo": photos![index], "bloc": widget.galleryBloc});
+                        }
+
                       },
                       child: Container(
                         decoration: BoxDecoration(
