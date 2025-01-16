@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
 
       title: 'Gallery',
       theme: theme(),
+      debugShowCheckedModeBanner: false,
       builder: (context, child){
         return Scaffold(body: child,);
       },

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gallery_app/core/globals/widgets/custom_dialogue.dart';
 import 'package:gallery_app/core/routes/app_routes.dart';
 import 'package:gallery_app/features/gallery/domain/entities/album.dart';
 import 'package:gallery_app/features/gallery/domain/entities/photo.dart';
@@ -20,9 +21,11 @@ class PhotosScreen extends StatefulWidget {
 }
 
 class _PhotosScreenState extends State<PhotosScreen> {
+  late Alerts _alerts;
   @override
   void initState() {
     super.initState();
+    _alerts = Alerts(context: context);
     widget.galleryBloc.add(GetPhotos(albumId: widget.album.id));
   }
 
@@ -36,7 +39,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
         ),
         automaticallyImplyLeading: true,
       ),
-      body: BlocBuilder<GalleryBloc, GalleryState>(
+      body: BlocConsumer<GalleryBloc, GalleryState>(
         bloc: widget.galleryBloc,
         builder: (context, state) {
           List<Photo>? photos =
@@ -60,15 +63,17 @@ class _PhotosScreenState extends State<PhotosScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        if(Platform.isAndroid){
+                        if (Platform.isAndroid) {
                           log("path: ${photos![index].imagePath}");
-                          context.push(AppRoutes.photoViewerScreen, extra: photos![index]);
-                        }
-                        else{
+                          context.push(AppRoutes.photoViewerScreen,
+                              extra: photos![index]);
+                        } else {
                           log("path: ${photos![index].imagePath}");
-                          context.push(AppRoutes.iOSPhotoViewerScreen, extra: {"photo": photos![index], "bloc": widget.galleryBloc});
+                          context.push(AppRoutes.iOSPhotoViewerScreen, extra: {
+                            "photo": photos![index],
+                            "bloc": widget.galleryBloc
+                          });
                         }
-
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -94,6 +99,15 @@ class _PhotosScreenState extends State<PhotosScreen> {
               style: Theme.of(context).primaryTextTheme.headlineLarge,
             ),
           );
+        },
+        listener: (BuildContext context, GalleryState state) {
+          if (state is PhotosFetching) {
+            _alerts.showLoadingDialog(title: "Loading photos");
+          } else if (state is PhotosFetchingFailed) {
+            _alerts.dismissDialog();
+          } else if (state is PhotosFetchingSuccess) {
+            _alerts.dismissDialog();
+          }
         },
       ),
     );
